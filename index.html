@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SkyCast — Weather Forecast</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- decorative sky backdrop, swapped by theme via JS -->
+<div class="sky-backdrop" id="skyBackdrop" aria-hidden="true">
+  <div class="sky-glow"></div>
+  <div class="sky-particles" id="skyParticles"></div>
+</div>
+
+<div class="page">
+
+  <!-- ===== HEADER ===== -->
+  <header class="site-header">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" width="30" height="30">
+          <circle cx="20" cy="20" r="11" fill="currentColor" opacity="0.9"/>
+          <path d="M14 32c-5 0-9-3.6-9-8.4 0-4.2 3.2-7.7 7.4-8.3C13.5 10 18.2 6 24 6c6.3 0 11.5 4.7 12.3 10.8 4.4.6 7.7 4.3 7.7 8.9 0 5-4.2 9-9.3 9H14z" fill="currentColor"/>
+        </svg>
+      </span>
+      <span class="brand-name">SkyCast</span>
+    </div>
+    <nav class="site-nav">
+      <span class="nav-clock" id="navClock">—</span>
+    </nav>
+  </header>
+
+  <main class="main">
+
+    <!-- ===== SEARCH SECTION ===== -->
+    <section class="search-section" aria-label="City search">
+      <form class="search-bar" id="searchForm" autocomplete="off">
+        <svg class="search-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+          <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/>
+          <line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <input
+          type="text"
+          id="cityInput"
+          class="search-input"
+          placeholder="Enter city name..."
+          aria-label="Enter city name"
+        />
+        <button type="submit" class="search-btn" id="searchBtn">
+          Search
+        </button>
+      </form>
+      <p class="search-error" id="searchError" role="alert" hidden></p>
+    </section>
+
+    <!-- ===== LOADING STATE ===== -->
+    <div class="loading-state" id="loadingState" hidden>
+      <span class="spinner" aria-hidden="true"></span>
+      <span>Fetching the sky…</span>
+    </div>
+
+    <!-- ===== DASHBOARD (hidden while loading / on error) ===== -->
+    <div class="dashboard" id="dashboard">
+
+      <!-- ===== CURRENT WEATHER CARD ===== -->
+      <section class="current-card" aria-label="Current weather">
+        <div class="current-card-top">
+          <div class="location-block">
+            <h1 class="city-name" id="cityName">—</h1>
+            <p class="country-name" id="countryName">—</p>
+            <p class="date-today" id="dateToday">—</p>
+          </div>
+          <div class="condition-block">
+            <div class="weather-icon" id="weatherIcon" aria-hidden="true"></div>
+            <p class="condition-text" id="conditionText">—</p>
+          </div>
+        </div>
+
+        <div class="current-card-mid">
+          <div class="temp-readout">
+            <span class="temp-value" id="tempValue">--</span>
+            <span class="temp-unit">°C</span>
+          </div>
+          <p class="feels-like" id="feelsLike">Feels like --°C</p>
+        </div>
+
+        <!-- signature element: sun-arc showing sunrise → now → sunset -->
+        <div class="sun-arc-wrap">
+          <svg class="sun-arc" viewBox="0 0 300 90" id="sunArc" aria-hidden="true">
+            <path d="M10,80 A140,140 0 0,1 290,80" fill="none" stroke="currentColor" stroke-opacity="0.25" stroke-width="2" stroke-dasharray="1 7" stroke-linecap="round"/>
+            <circle id="sunDot" cx="10" cy="80" r="6" fill="currentColor"/>
+          </svg>
+          <div class="sun-arc-labels">
+            <span id="sunriseLabel">-- : --</span>
+            <span class="sun-arc-caption">sunrise → sunset</span>
+            <span id="sunsetLabel">-- : --</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== WEATHER DETAILS ===== -->
+      <section class="details-section" aria-label="Weather details">
+        <h2 class="section-title">Weather details</h2>
+        <div class="details-grid" id="detailsGrid">
+          <!-- populated by JS -->
+        </div>
+      </section>
+
+      <!-- ===== 5-DAY FORECAST ===== -->
+      <section class="forecast-section" aria-label="5-day forecast">
+        <h2 class="section-title">5-day forecast</h2>
+        <div class="forecast-grid" id="forecastGrid">
+          <!-- populated by JS -->
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>SkyCast · Live data via Open-Meteo (no API key needed) · Built with HTML, CSS &amp; vanilla JS</p>
+  </footer>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
