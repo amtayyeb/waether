@@ -261,26 +261,62 @@ function updateSunArc(nowISO, sunriseISO, sunsetISO) {
 /* =========================================================
    Rendering: weather details grid
    ========================================================= */
+
 function displayWeatherDetails(current, sunrise, sunset, visibilityMeters) {
   const items = [
-    { icon: "💧", label: "Humidity", value: `${Math.round(current.relative_humidity_2m)}%` },
-    { icon: "💨", label: "Wind speed", value: `${Math.round(current.wind_speed_10m)} km/h` },
-    { icon: "🌡️", label: "Feels like", value: `${Math.round(current.apparent_temperature)}°C` },
-    { icon: "👁️", label: "Visibility", value: visibilityMeters != null ? `${(visibilityMeters / 1000).toFixed(1)} km` : "—" },
-    { icon: "🌅", label: "Sunrise", value: formatTimeFromISO(sunrise) },
-    { icon: "🌇", label: "Sunset", value: formatTimeFromISO(sunset) },
-    { icon: "📊", label: "Pressure", value: `${Math.round(current.surface_pressure)} hPa` },
-    { icon: "☁️", label: "Cloudiness", value: `${Math.round(current.cloud_cover)}%` },
+    {
+      icon: "💧",
+      label: "Humidity",
+      value: `${Math.round(current.relative_humidity_2m)}%`
+    },
+    {
+      icon: "💨",
+      label: "Wind speed",
+      value: `${Math.round(current.wind_speed_10m)} km/h`
+    },
+    {
+      icon: "🌡️",
+      label: "Dew point",
+      value: `${Math.round(current.dew_point_2m)}°C`
+    },
+    {
+      icon: "👁️",
+      label: "Visibility",
+      value: visibilityMeters != null
+        ? `${(visibilityMeters / 1000).toFixed(1)} km`
+        : "—"
+    },
+    {
+      icon: "🌅",
+      label: "Sunrise",
+      value: formatTimeFromISO(sunrise)
+    },
+    {
+      icon: "🌇",
+      label: "Sunset",
+      value: formatTimeFromISO(sunset)
+    },
+    {
+      icon: "📊",
+      label: "Pressure",
+      value: `${Math.round(current.surface_pressure)} hPa`
+    },
+    {
+      icon: "☁️",
+      label: "Cloudiness",
+      value: `${Math.round(current.cloud_cover)}%`
+    }
   ];
 
   detailsGrid.innerHTML = items
     .map(
       (item) => `
-      <div class="detail-card">
-        <span class="detail-icon">${item.icon}</span>
-        <span class="detail-label">${item.label}</span>
-        <span class="detail-value">${item.value}</span>
-      </div>`
+        <div class="detail-card">
+          <span class="detail-icon">${item.icon}</span>
+          <span class="detail-label">${item.label}</span>
+          <span class="detail-value">${item.value}</span>
+        </div>
+      `
     )
     .join("");
 }
@@ -329,7 +365,7 @@ async function fetchForecast(lat, lon) {
   const params = new URLSearchParams({
     latitude: lat,
     longitude: lon,
-    current: "temperature_2m,relative_humidity_2m,apparent_temperature,is_day,weather_code,wind_speed_10m,surface_pressure,cloud_cover",
+   current: "temperature_2m,relative_humidity_2m,apparent_temperature,dew_point_2m,is_day,weather_code,wind_speed_10m,surface_pressure,cloud_cover",
     hourly: "visibility",
     daily: "weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset",
     timezone: "auto",
